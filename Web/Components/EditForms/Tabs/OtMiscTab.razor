@@ -1,0 +1,89 @@
+﻿@inherits BasePkmdsComponent
+
+@if (Pokemon is { Generation: { } pokemonGeneration } &&
+AppState.SaveFile is { Context: { } saveFileEntityContext, Generation: { } saveGeneration } saveFile &&
+saveFileEntityContext is not
+EntityContext.None or
+EntityContext.SplitInvalid or
+EntityContext.MaxInvalid &&
+((AppState.SelectedBoxNumber is not null && AppState.SelectedBoxSlotNumber is not null) || (AppState.SelectedPartySlotNumber is not null)))
+{
+    switch (saveFile.GetTrainerIDFormat())
+    {
+        case TrainerIDFormat.SixteenBit:
+            {
+                <MudNumericField Label="Trainer ID"
+                                 Variant="@Variant.Outlined"
+                                 @bind-Value="@Pokemon.TID16"
+                                 Format="@AppService.GetIdFormatString()"
+                                 For="@(() => Pokemon.TID16)" />
+
+                @if (pokemonGeneration >= 3)
+                {
+                    <MudNumericField Label="Trainer SID"
+                                     Variant="@Variant.Outlined"
+                                     @bind-Value="@Pokemon.SID16"
+                                     Format="@AppService.GetIdFormatString(true)"
+                                     For="@(() => Pokemon.SID16)" />
+                }
+            }
+            break;
+
+        case TrainerIDFormat.SixDigit:
+            {
+                <MudNumericField Label="Trainer ID"
+                                 Variant="@Variant.Outlined"
+                                 @bind-Value="@Pokemon.TrainerTID7"
+                                 Format="@AppService.GetIdFormatString()"
+                                 For="@(() => Pokemon.TrainerTID7)" />
+
+                @if (pokemonGeneration >= 3)
+                {
+                    <MudNumericField Label="Trainer SID"
+                                     Variant="@Variant.Outlined"
+                                     @bind-Value="@Pokemon.TrainerSID7"
+                                     Format="@AppService.GetIdFormatString(true)"
+                                     For="@(() => Pokemon.TrainerSID7)" />
+                }
+            }
+            break;
+    }
+
+    <MudTextField Label="OT"
+                  Variant="@Variant.Outlined"
+                  @bind-Value="@Pokemon.OriginalTrainerName"
+                  For="@(() => Pokemon.OriginalTrainerName)" />
+
+    <MudSelect Label="OT Gender"
+               Variant="@Variant.Outlined"
+               @bind-Value="@Pokemon.OriginalTrainerGender"
+               For="@(() => Pokemon.OriginalTrainerGender)">
+
+        <MudSelectItem Value="@((byte)Gender.Male)">
+            <MudStack Row>
+                <MudIcon Icon="@Icons.Material.Filled.Male"
+                         Style="@($"color: {Colors.Blue.Default};")" />
+                <MudText Style="@($"color: {Colors.Blue.Default};")">
+                    @GameInfo.GenderSymbolASCII[(int)Gender.Male]
+                </MudText>
+            </MudStack>
+        </MudSelectItem>
+
+        <MudSelectItem Value="@((byte)Gender.Female)">
+            <MudStack Row>
+                <MudIcon Icon="@Icons.Material.Filled.Female"
+                         Style="@($"color: {Colors.Red.Default};")" />
+                <MudText Style="@($"color: {Colors.Red.Default};")">
+                    @GameInfo.GenderSymbolASCII[(int)Gender.Female]
+                </MudText>
+            </MudStack>
+        </MudSelectItem>
+
+    </MudSelect>
+
+    <MudButton OnClick="@FillFromGame"
+               Variant="@Variant.Filled"
+               Class="mt-2">
+        Fill Trainer info from Game
+    </MudButton>
+}

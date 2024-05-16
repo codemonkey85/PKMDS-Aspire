@@ -1,11 +1,24 @@
-﻿@using System.Net.Http
-@using System.Net.Http.Json
+﻿@using KristofferStrube.Blazor.FileSystemAccess
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
-@using static Microsoft.AspNetCore.Components.Web.RenderMode
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.AspNetCore.OutputCaching
 @using Microsoft.JSInterop
-@using PKMDS_Aspire.Web
-@using PKMDS_Aspire.Web.Components
+@using MudBlazor
+@using PKHeX.Core
+@using PKMDS.Web
+@using PKMDS.Web.Components
+@using PKMDS.Web.Components.EditForms
+@using PKMDS.Web.Components.EditForms.Tabs
+@using PKMDS.Web.Services
+@using System.Net.Http
+@using System.Net.Http.Json
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+
+@inject IJSRuntime JSRuntime
+@inject IDialogService DialogService
+@inject IAppState AppState
+@inject IRefreshService RefreshService
+@inject IAppService AppService
+@inject IFileSystemAccessService FileSystemAccessService;

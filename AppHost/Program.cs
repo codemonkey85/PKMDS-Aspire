@@ -1,8 +1,8 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var apiService = builder.AddProject<Projects.PKMDS_Aspire_ApiService>("apiservice");
+var apiService = builder.AddProject<Projects.PKMDS_ApiService>("apiservice");
 
-builder.AddProject<Projects.PKMDS_Aspire_Web>("webfrontend")
+builder.AddProject<Projects.PKMDS_Web>("webfrontend")
     .WithExternalHttpEndpoints()
     .WithReference(apiService);
 

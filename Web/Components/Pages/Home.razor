@@ -1,7 +1,18 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>
+    PKMDS Save Editor
+</PageTitle>
 
-<h1>Hello, world!</h1>
+@if (AppState.SaveFile is null)
+{
+    <MudButton Variant="@Variant.Text"
+               ButtonType="@ButtonType.Button"
+               OnClick="@(_ => AppService.IsDrawerOpen = true)">
+        <MudText Typo="@Typo.h5">
+            Please load a save file.
+        </MudText>
+    </MudButton>
+}
 
-Welcome to your new app.
+<SaveFileComponent />
